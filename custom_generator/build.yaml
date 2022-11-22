@@ -1,0 +1,21 @@
+targets:
+  $default:
+    builders:
+      copy_with_generator:
+        enabled: true
+        generate_for:
+          exclude:
+            - test
+      source_gen|combining_builder:
+        options:
+          ignore_for_file:
+            - "type=lint"
+
+builders:
+  copy_with_generator:
+    import: "package:custom_generator/builder.dart"
+    builder_factories: ["copyWith"]
+    build_extensions: { ".dart": [".copy_with.dart"] }
+    auto_apply: root_package
+    build_to: cache
+    applies_builders: ["source_gen|combining_builder"]
